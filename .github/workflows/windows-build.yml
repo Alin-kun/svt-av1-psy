@@ -14,7 +14,7 @@ jobs:
       - name: Download and extract NASM
         shell: powershell
         run: |
-          Invoke-WebRequest -Uri "https://www.nasm.us/pub/nasm/releasebuilds/2.16.01/win64/nasm-2.16.01-win64.zip" -OutFile "nasm.zip"
+          Invoke-WebRequest -Uri "https://github.com/microsoft/vcpkg/files/12073957/nasm-2.16.01-win64.zip" -OutFile "nasm.zip"
           Expand-Archive -Path "nasm.zip" -DestinationPath "nasm"
           echo "$PWD\nasm\nasm-2.16.01" | Out-File -Append -Encoding ascii $env:GITHUB_PATH
 
