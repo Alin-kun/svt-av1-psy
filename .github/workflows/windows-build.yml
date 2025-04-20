@@ -1,4 +1,4 @@
-name: Build Windows .exe
+name: Build SVT-AV1-PSY on Windows
 
 on:
   workflow_dispatch:
@@ -12,10 +12,11 @@ jobs:
         uses: actions/checkout@v3
 
       - name: Download and extract NASM
+        shell: powershell
         run: |
-          curl -L -o nasm.zip https://www.nasm.us/pub/nasm/releasebuilds/2.16.01/win64/nasm-2.16.01-win64.zip
-          tar -xf nasm.zip
-          echo "$PWD/nasm-2.16.01" >> $GITHUB_PATH
+          Invoke-WebRequest -Uri "https://www.nasm.us/pub/nasm/releasebuilds/2.16.01/win64/nasm-2.16.01-win64.zip" -OutFile "nasm.zip"
+          Expand-Archive -Path "nasm.zip" -DestinationPath "nasm"
+          echo "$PWD\nasm\nasm-2.16.01" | Out-File -Append -Encoding ascii $env:GITHUB_PATH
 
       - name: Install CMake
         uses: lukka/get-cmake@latest
