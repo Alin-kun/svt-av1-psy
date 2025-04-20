@@ -28,8 +28,16 @@ jobs:
     }
   shell: pwsh
 
+- name: Remove previous Build directory if it exists
+  run: |
+    if (Test-Path Build) {
+      Remove-Item -Recurse -Force Build
+    }
+  shell: pwsh
+
 - name: Configure CMake
   run: cmake -B Build -G "Ninja" ...
+
 
       
       
