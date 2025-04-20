@@ -1,0 +1,51 @@
+name: Build SVT-AV1-PSY on Windows
+
+on:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: windows-latest
+
+    steps:
+      - name: Checkout source
+        uses: actions/checkout@v3
+
+      - name: Download and extract NASM
+        shell: powershell
+        run: |
+          Invoke-WebRequest -Uri "https://github.com/microsoft/vcpkg/files/12073957/nasm-2.16.01-win64.zip" -OutFile "nasm.zip"
+          Expand-Archive -Path "nasm.zip" -DestinationPath "nasm"
+          echo "$PWD\nasm\nasm-2.16.01" | Out-File -Append -Encoding ascii $env:GITHUB_PATH
+
+      - name: Install CMake
+        uses: lukka/get-cmake@latest
+
+      - name: Remove previous Build directory if it exists
+  run: |
+    if (Test-Path Build) {
+      Remove-Item -Recurse -Force Build
+    }
+  shell: pwsh
+
+- name: Configure CMake
+  run: cmake -B Build -G "Ninja" ...
+
+      
+      
+      - name: Configure with CMake
+        run: |
+          mkdir build
+          cd build
+          cmake .. -G "Visual Studio 17 2022" -A x64 -DCMAKE_BUILD_TYPE=Release
+
+      - name: Build with MSBuild
+        run: |
+          cd build
+          cmake --build . --config Release
+
+      - name: Upload built executable
+        uses: actions/upload-artifact@v4
+        with:
+          name: svt-av1-psy-exe
+          path: build/Bin/Release/SvtAv1EncApp.exe
