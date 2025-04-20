@@ -1,4 +1,4 @@
-name: Build SVT-AV1-PSY on Windows
+name: Build Windows .exe
 
 on:
   workflow_dispatch:
@@ -6,16 +6,16 @@ on:
 jobs:
   build:
     runs-on: windows-latest
-    name: Build Windows Binary
+
     steps:
       - name: Checkout source
         uses: actions/checkout@v3
 
       - name: Download and extract NASM
-  run: |
-    curl -L -o nasm.zip https://www.nasm.us/pub/nasm/releasebuilds/2.16.01/win64/nasm-2.16.01-win64.zip
-    tar -xf nasm.zip
-    echo "$PWD/nasm-2.16.01" >> $GITHUB_PATH
+        run: |
+          curl -L -o nasm.zip https://www.nasm.us/pub/nasm/releasebuilds/2.16.01/win64/nasm-2.16.01-win64.zip
+          tar -xf nasm.zip
+          echo "$PWD/nasm-2.16.01" >> $GITHUB_PATH
 
       - name: Install CMake
         uses: lukka/get-cmake@latest
