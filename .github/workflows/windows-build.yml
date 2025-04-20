@@ -11,10 +11,11 @@ jobs:
       - name: Checkout source
         uses: actions/checkout@v3
 
-      - name: Install NASM
-        run: |
-          choco install nasm -y
-          refreshenv
+      - name: Download and extract NASM
+  run: |
+    curl -L -o nasm.zip https://www.nasm.us/pub/nasm/releasebuilds/2.16.01/win64/nasm-2.16.01-win64.zip
+    tar -xf nasm.zip
+    echo "$PWD/nasm-2.16.01" >> $GITHUB_PATH
 
       - name: Install CMake
         uses: lukka/get-cmake@latest
