@@ -21,6 +21,18 @@ jobs:
       - name: Install CMake
         uses: lukka/get-cmake@latest
 
+      - name: Remove previous Build directory if it exists
+  run: |
+    if (Test-Path Build) {
+      Remove-Item -Recurse -Force Build
+    }
+  shell: pwsh
+
+- name: Configure CMake
+  run: cmake -B Build -G "Ninja" ...
+
+      
+      
       - name: Configure with CMake
         run: |
           mkdir build
